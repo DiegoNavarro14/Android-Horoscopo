@@ -1,0 +1,184 @@
+activity detalle
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.sixgu.horoscopod.Detalles">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:id="@+id/ImgViewSigno"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/rosa"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/TxtSigno"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/rosa"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/TxtUsuario"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/rosa"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/TxtDetalle"/>
+
+</LinearLayout>
+
+Main detalle
+
+package com.example.sixgu.horoscopod;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class Detalles extends AppCompatActivity {
+    ImageView imagen;
+    TextView detalle;
+    TextView usuario;
+    TextView signo;
+    String dia,mes;
+    String usuarioingresado;
+    String nombreSigno;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detalles);
+        imagen = (ImageView)findViewById(R.id.ImgViewSigno);
+        detalle = (TextView)findViewById(R.id.TxtDetalle);
+        usuario = (TextView)findViewById(R.id.TxtUsuario);
+        signo = (TextView)findViewById(R.id.TxtSigno);
+        Bundle bundle = getIntent().getExtras();
+        dia=bundle.getString("dia");
+        mes=bundle.getString("mes");
+        int Dia = Integer.parseInt(dia);
+        int Mes = Integer.parseInt(mes);
+        usuarioingresado=bundle.getString("usuarioingresado");
+
+        if (Dia >= 21 && Mes == 3 || Dia <= 20 && Mes == 4){
+            nombreSigno="Aries";
+            imagen.setImageResource(R.drawable.aries);
+        }
+
+        if (Dia >= 21 && Mes == 4 || Dia <= 21 && Mes == 5 ){
+            nombreSigno="Tauro";
+            imagen.setImageResource(R.drawable.tauro);
+        }
+
+        if (Dia >= 22 && Mes == 5 || Dia <= 21 && Mes == 6) {
+            nombreSigno="Geminis";
+            imagen.setImageResource(R.drawable.geminis);
+        }
+
+        if (Dia >= 21 && Mes == 6 || Dia <= 27 && Mes == 7){
+            nombreSigno="Cancer";
+            imagen.setImageResource(R.drawable.cancer);
+        }
+
+        if (Dia >= 24 && Mes == 7 || Dia <= 23 && Mes == 8){
+            nombreSigno="Leo";
+            imagen.setImageResource(R.drawable.leo);
+        }
+
+        if (Dia >= 24 && Mes == 8 || Dia <= 23 && Mes == 9){
+            nombreSigno="Virgo";
+            imagen.setImageResource(R.drawable.virgo);
+        }
+
+        if (Dia >= 24 && Mes == 9 || Dia <= 23 && Mes == 10){
+            nombreSigno="Libra";
+            imagen.setImageResource(R.drawable.libra);
+        }
+
+        if (Dia >= 24 && Mes == 10 || Dia <= 22 && Mes == 11){
+            nombreSigno="Escorpio";
+            imagen.setImageResource(R.drawable.escorpio);
+        }
+
+        if (Dia >= 23 && Mes == 11 || Dia <= 21 && Mes == 12){
+            nombreSigno="Sagitario";
+            imagen.setImageResource(R.drawable.sagitario);
+        }
+
+        if (Dia >= 22 && Mes == 11 || Dia <= 20 && Mes == 1){
+            nombreSigno="Capricornio";
+            imagen.setImageResource(R.drawable.capricornio);
+        }
+
+        if (Dia >= 21 && Mes == 1 || Dia <= 19 && Mes == 2){
+            nombreSigno="Acuario";
+            imagen.setImageResource(R.drawable.acuario);
+        }
+
+        if (Dia >= 20 && Mes == 2 || Dia <= 20 && Mes == 3){
+            nombreSigno="Piscis";
+            imagen.setImageResource(R.drawable.piscis);
+        }
+
+
+
+
+        try {
+            BaseHelper helper = new BaseHelper(this, "DBHoroscopo", null, 1);
+            SQLiteDatabase db = helper.getReadableDatabase();
+            String[] parametros = {nombreSigno};
+            String[] campos = {"mes","dia","detalle","nombre_signo"};
+            Cursor c = db.query("horoscopo", campos, "nombre_signo"+"=?", parametros, null, null, null);
+
+            do {
+                c.moveToFirst();
+
+                if (c.getString(3).equals(nombreSigno)) {
+                    detalle.setText(c.getString(2).toString());
+                    usuario.setText(usuarioingresado);
+                    signo.setText(c.getString(3));
+                }
+
+            }
+            while (c.moveToNext());
+
+            c.close();
+            db.close();
+
+        } catch (Exception e) {
+
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+
+
+
+    }
