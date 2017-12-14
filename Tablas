@@ -1,0 +1,38 @@
+Clase Tablas
+
+package com.example.sixgu.horoscopod;
+
+
+
+/**
+ * Created by sixgu on 12/13/2017.
+ */
+
+public class Tablas {
+
+
+
+        public static final String TABLA_USUARIO  = "usuarios";
+        public static final String COLUMNA_ID = "id";
+        public static final String COLUMNA_USUARIO = "usuario";
+        public static final String COLUMNA_CONTRASEÑA = "contraseña";
+
+        public static final String CREAR_TABLA_USUARIOS="CREATE TABLE " +
+                                    " "+TABLA_USUARIO+" ("+COLUMNA_ID+" " +
+                                    "INTEGER PRIMARY KEY AUTOINCREMENT, "+COLUMNA_USUARIO+" TEXT,"+
+                                    COLUMNA_CONTRASEÑA+" TEXT)";
+
+        public static final String TABLA_HOROSCOPO  = "horoscopo";
+        public static final String COLUMNA_ID_HOROSCOPO = "id";
+        public static final String COLUMNA_NOMBRE_SIGNO = "nombre_signo";
+        public static final String COLUMNA_DETALLE = "detalle";
+        public static final String COLUMNA_DIA = "dia";
+        public static final String COLUMNA_MES = "mes";
+
+        public static final String CREAR_TABLA_HOROSCOPO="CREATE TABLE " +
+                                    " "+TABLA_HOROSCOPO+" ("+COLUMNA_ID_HOROSCOPO+" INTEGER PRIMARY KEY, "
+                                    +COLUMNA_NOMBRE_SIGNO+" TEXT,"+
+                                    COLUMNA_DETALLE+" TEXT,"+COLUMNA_DIA+" TEXT,"+COLUMNA_MES+" TEXT)";
+
+
+}
